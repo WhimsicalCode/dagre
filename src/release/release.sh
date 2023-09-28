@@ -10,7 +10,6 @@ bail() {
 # Initial config
 PROJECT=$1
 PROJECT_ROOT=`pwd`
-PAGES_DIR=/tmp/$PROJECT-pages
 DIST_DIR=$2
 
 # Check version. Is this a release? If not abort
@@ -26,26 +25,6 @@ echo Attemping to publish version: $VERSION
 [ "`git rev-parse HEAD`" = "`git rev-parse master`" ] || [ -n "$PRE_RELEASE" ] || bail "ERROR: You must release from the master branch"
 [ -z "`git status --porcelain`" ] || bail "ERROR: Dirty index on working tree. Use git status to check"
 
-# Publish to pages
-rm -rf $PAGES_DIR
-git clone git@github.com:dagrejs/dagrejs.github.io.git $PAGES_DIR
-
-TMP_TARGET=$PAGES_DIR/project/$PROJECT/latest
-rm -rf $TMP_TARGET
-mkdir -p $TMP_TARGET
-cp -r $DIST_DIR/*.js $TMP_TARGET
-
-TMP_TARGET=$PAGES_DIR/project/$PROJECT/v$VERSION
-rm -rf $TMP_TARGET
-mkdir -p $TMP_TARGET
-cp -r $DIST_DIR/*.js $TMP_TARGET
-
-cd $PAGES_DIR/project/$PROJECT
-git add -A
-git commit -m "Publishing $PROJECT v$VERSION"
-git push -f origin master
-cd $PROJECT_ROOT
-echo "Published $PROJECT to pages"
 
 # Publish tag
 git tag v$VERSION
@@ -53,9 +32,9 @@ git push origin
 git push origin v$VERSION
 echo Published $PROJECT v$VERSION
 
-# Publish to npm
-npm publish --access=public
-echo Published to npm
+## Publish to npm
+#npm publish --access=public
+#echo Published to npm
 
 # Update patch level version + commit
 ./src/release/bump-version.js
