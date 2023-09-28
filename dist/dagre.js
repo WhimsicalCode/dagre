@@ -532,8 +532,8 @@ function updateInputGraph(inputGraph, layoutGraph) {
 let graphNumAttrs = ["nodesep", "edgesep", "ranksep", "marginx", "marginy"];
 let graphDefaults = { ranksep: 50, edgesep: 20, nodesep: 50, rankdir: "tb" };
 let graphAttrs = ["acyclicer", "ranker", "rankdir", "align"];
-let nodeNumAttrs = ["width", "height"];
-let nodeDefaults = { width: 0, height: 0 };
+let nodeNumAttrs = ["width", "height", "labelheight"];
+let nodeDefaults = { width: 0, height: 0, labelheight: 0 };
 let edgeNumAttrs = ["minlen", "weight", "width", "height", "labeloffset"];
 let edgeDefaults = {
   minlen: 1, weight: 1, width: 0, height: 0,
@@ -901,9 +901,10 @@ function dfs(g, root, nodeSep, weight, height, depths, v) {
     return;
   }
 
-  let top = util.addBorderNode(g, "_bt");
-  let bottom = util.addBorderNode(g, "_bb");
   let label = g.node(v);
+  // Adding custom border node to help with cluster label offset
+  let top = util.addWhimBorderNode(g, "_bt", label.labelheight);
+  let bottom = util.addBorderNode(g, "_bb");
 
   g.setParent(top, v);
   label.borderTop = top;
@@ -2184,8 +2185,23 @@ function positionY(g) {
         return height;
       }
     }, 0);
-    layer.forEach(v => g.node(v).y = prevY + maxHeight / 2);
-    prevY += maxHeight + rankSep;
+    let borderTopSeen = false;
+    let labelheight = 0;
+    layer.forEach(v => {
+      let node = g.node(v);
+      if (node.dummy === "border" && node.whimNode) {
+        borderTopSeen = true;
+        labelheight = node.labelheight;
+      }
+      node.y = prevY + maxHeight / 2
+    });
+
+    if (borderTopSeen) {
+      // hard coding padding for cluster labels
+      prevY += maxHeight + labelheight + 24;
+    } else {
+      prevY += maxHeight + rankSep;
+    }
   });
 }
 
@@ -2648,6 +2664,7 @@ let Graph = require("@dagrejs/graphlib").Graph;
 
 module.exports = {
   addBorderNode,
+  addWhimBorderNode,
   addDummyNode,
   asNonCompoundGraph,
   buildLayerMatrix,
@@ -2847,6 +2864,20 @@ function addBorderNode(g, prefix, rank, order) {
   return addDummyNode(g, "border", node, prefix);
 }
 
+// labelHeight is a custom property to be used to offset cluster children nodes
+// by the height of the cluster label
+function addWhimBorderNode(g, prefix, labelHeight) {
+  const node = {
+    width: 0,
+    height: 0,
+    whimNode: true,
+    labelheight: labelHeight
+  };
+
+  return addDummyNode(g, "border", node, prefix);
+}
+
+
 function maxRank(g) {
   return Math.max(...g.nodes().map(v => {
     let rank = g.node(v).rank;
@@ -2948,7 +2979,7 @@ function zipObject(props, values) {
 }
 
 },{"@dagrejs/graphlib":29}],28:[function(require,module,exports){
-module.exports = "1.0.4";
+module.exports = "1.0.5-pre";
 
 },{}],29:[function(require,module,exports){
 /**

@@ -37,7 +37,7 @@ describe("rank/nestingGraph", () => {
       expect(g.edge(g.outEdges(borderTop, "a")[0]).minlen).equals(1);
       expect(g.outEdges("a", borderBottom)).to.have.length(1);
       expect(g.edge(g.outEdges("a", borderBottom)[0]).minlen).equals(1);
-      expect(g.node(borderTop)).eqls({ width: 0, height: 0, dummy: "border" });
+      expect(g.node(borderTop)).eqls({ width: 0, height: 0, whimNode: true, labelheight: undefined, dummy: "border" });
       expect(g.node(borderBottom)).eqls({ width: 0, height: 0, dummy: "border" });
     });
 
