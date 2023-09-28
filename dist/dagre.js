@@ -2193,7 +2193,7 @@ function positionY(g) {
         borderTopSeen = true;
         labelheight = node.labelheight;
       }
-      node.y = prevY + maxHeight / 2
+      node.y = prevY + maxHeight / 2;
     });
 
     if (borderTopSeen) {
@@ -2979,7 +2979,7 @@ function zipObject(props, values) {
 }
 
 },{"@dagrejs/graphlib":29}],28:[function(require,module,exports){
-module.exports = "1.0.5-pre";
+module.exports = "1.0.6";
 
 },{}],29:[function(require,module,exports){
 /**

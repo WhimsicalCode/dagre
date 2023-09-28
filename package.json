@@ -1,6 +1,6 @@
 {
   "name": "@whimsicalcode/dagre",
-  "version": "1.0.5-pre",
+  "version": "1.0.6",
   "description": "Graph layout for JavaScript",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "contributors": [
