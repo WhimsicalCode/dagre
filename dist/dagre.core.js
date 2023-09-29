@@ -311,6 +311,7 @@ function debugOrdering(g) {
 }
 
 },{"./graphlib":7,"./lodash":10,"./util":29}],7:[function(require,module,exports){
+// eslint-disable-next-line no-redeclare
 /* global window */
 
 var graphlib;
@@ -549,8 +550,8 @@ function updateInputGraph(inputGraph, layoutGraph) {
 var graphNumAttrs = ["nodesep", "edgesep", "ranksep", "marginx", "marginy"];
 var graphDefaults = { ranksep: 50, edgesep: 20, nodesep: 50, rankdir: "tb" };
 var graphAttrs = ["acyclicer", "ranker", "rankdir", "align"];
-var nodeNumAttrs = ["width", "height"];
-var nodeDefaults = { width: 0, height: 0 };
+var nodeNumAttrs = ["width", "height", "labelheight"];
+var nodeDefaults = { width: 0, height: 0, labelheight: 0 };
 var edgeNumAttrs = ["minlen", "weight", "width", "height", "labeloffset"];
 var edgeDefaults = {
   minlen: 1, weight: 1, width: 0, height: 0,
@@ -844,6 +845,7 @@ function canonicalize(attrs) {
 }
 
 },{"./acyclic":2,"./add-border-segments":3,"./coordinate-system":4,"./graphlib":7,"./lodash":10,"./nesting-graph":11,"./normalize":12,"./order":17,"./parent-dummy-chains":22,"./position":24,"./rank":26,"./util":29}],10:[function(require,module,exports){
+// eslint-disable-next-line no-redeclare
 /* global window */
 
 var lodash;
@@ -954,9 +956,10 @@ function dfs(g, root, nodeSep, weight, height, depths, v) {
     return;
   }
 
-  var top = util.addBorderNode(g, "_bt");
-  var bottom = util.addBorderNode(g, "_bb");
   var label = g.node(v);
+  // Adding custom border node to help with cluster label offset
+  var top = util.addWhimBorderNode(g, "_bt", label.labelheight);
+  var bottom = util.addBorderNode(g, "_bb");
 
   g.setParent(top, v);
   label.borderTop = top;
@@ -2259,10 +2262,22 @@ function positionY(g) {
   var prevY = 0;
   _.forEach(layering, function(layer) {
     var maxHeight = _.max(_.map(layer, function(v) { return g.node(v).height; }));
+    var borderTopSeen = false;
+    var labelheight = 0;
     _.forEach(layer, function(v) {
-      g.node(v).y = prevY + maxHeight / 2;
+      var node = g.node(v);
+      console.log("nodeY", node);
+      if (node.dummy === "border" && node.whimNode) {
+        borderTopSeen = true;
+        labelheight = node.labelheight;
+      }
+      node.y = prevY + maxHeight / 2;
     });
-    prevY += maxHeight + rankSep;
+    if (borderTopSeen) {
+      prevY += maxHeight + labelheight + 24;
+    } else {
+      prevY += maxHeight + rankSep;
+    }
   });
 }
 
@@ -2728,6 +2743,7 @@ module.exports = {
   normalizeRanks: normalizeRanks,
   removeEmptyRanks: removeEmptyRanks,
   addBorderNode: addBorderNode,
+  addWhimBorderNode: addWhimBorderNode,
   maxRank: maxRank,
   partition: partition,
   time: time,
@@ -2906,6 +2922,19 @@ function addBorderNode(g, prefix, rank, order) {
   return addDummyNode(g, "border", node, prefix);
 }
 
+// labelHeight is a custom property to be used to offset cluster children nodes
+// by the height of the cluster label
+function addWhimBorderNode(g, prefix, labelHeight) {
+  var node = {
+    width: 0,
+    height: 0,
+    whimNode: true,
+    labelheight: labelHeight
+  };
+
+  return addDummyNode(g, "border", node, prefix);
+}
+
 function maxRank(g) {
   return _.max(_.map(g.nodes(), function(v) {
     var rank = g.node(v).rank;
@@ -2950,7 +2979,7 @@ function notime(name, fn) {
 }
 
 },{"./graphlib":7,"./lodash":10}],30:[function(require,module,exports){
-module.exports = "0.8.5";
+module.exports = "0.8.6-pre";
 
 },{}]},{},[1])(1)
 });
