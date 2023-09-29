@@ -1,6 +1,6 @@
 {
   "name": "@whimsicalcode/dagre",
-  "version": "1.0.6",
+  "version": "1.0.5-whim",
   "description": "Graph layout for JavaScript",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "contributors": [
@@ -27,7 +27,7 @@
     "layout"
   ],
   "dependencies": {
-    "@dagrejs/graphlib": "2.1.13"
+    "@dagrejs/graphlib": "2.1.10"
   },
   "devDependencies": {
     "benchmark": "2.1.4",
