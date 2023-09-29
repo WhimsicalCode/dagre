@@ -2266,7 +2266,6 @@ function positionY(g) {
     var labelheight = 0;
     _.forEach(layer, function(v) {
       var node = g.node(v);
-      console.log("nodeY", node);
       if (node.dummy === "border" && node.whimNode) {
         borderTopSeen = true;
         labelheight = node.labelheight;
@@ -2979,7 +2978,7 @@ function notime(name, fn) {
 }
 
 },{"./graphlib":7,"./lodash":10}],30:[function(require,module,exports){
-module.exports = "0.8.6";
+module.exports = "0.8.61";
 
 },{}],31:[function(require,module,exports){
 /**
