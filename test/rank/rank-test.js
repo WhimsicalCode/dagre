@@ -1,6 +1,6 @@
 let expect = require("../chai").expect;
 let rank = require("../../lib/rank");
-let Graph = require("@dagrejs/graphlib").Graph;
+let Graph = require("graphlib").Graph;
 
 describe("rank", () => {
   let RANKERS = [

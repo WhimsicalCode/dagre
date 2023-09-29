@@ -1,5 +1,5 @@
 let expect = require("../chai").expect;
-let Graph = require("@dagrejs/graphlib").Graph;
+let Graph = require("graphlib").Graph;
 let feasibleTree = require("../../lib/rank/feasible-tree");
 
 describe("feasibleTree", () => {

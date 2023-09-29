@@ -1,6 +1,6 @@
 let expect = require("../chai").expect;
 let sortSubgraph = require("../../lib/order/sort-subgraph");
-let Graph = require("@dagrejs/graphlib").Graph;
+let Graph = require("graphlib").Graph;
 
 describe("order/sortSubgraph", () => {
   let g, cg;

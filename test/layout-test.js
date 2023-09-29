@@ -1,6 +1,6 @@
 var expect = require("./chai").expect;
 var layout = require("..").layout;
-var Graph = require("@dagrejs/graphlib").Graph;
+var Graph = require("graphlib").Graph;
 
 describe("layout", () => {
   var g;

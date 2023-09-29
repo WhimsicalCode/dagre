@@ -1,7 +1,7 @@
 /* eslint "no-console": off */
 
 var expect = require("./chai").expect;
-var Graph = require("@dagrejs/graphlib").Graph;
+var Graph = require("graphlib").Graph;
 var util = require("../lib/util");
 
 describe("util", () => {

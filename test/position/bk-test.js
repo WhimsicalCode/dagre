@@ -11,7 +11,7 @@ let alignCoordinates = bk.alignCoordinates;
 let balance = bk.balance;
 let findSmallestWidthAlignment = bk.findSmallestWidthAlignment;
 let positionX = bk.positionX;
-let Graph = require("@dagrejs/graphlib").Graph;
+let Graph = require("graphlib").Graph;
 
 describe("position/bk", () => {
   var g;

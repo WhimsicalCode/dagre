@@ -1,5 +1,5 @@
 let expect = require("../chai").expect;
-let Graph = require("@dagrejs/graphlib").Graph;
+let Graph = require("graphlib").Graph;
 let buildLayerGraph = require("../../lib/order/build-layer-graph");
 
 describe("order/buildLayerGraph", () => {

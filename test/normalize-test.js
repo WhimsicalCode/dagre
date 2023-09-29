@@ -1,6 +1,6 @@
 var expect = require("./chai").expect;
 var normalize = require("../lib/normalize");
-var Graph = require("@dagrejs/graphlib").Graph;
+var Graph = require("graphlib").Graph;
 
 describe("normalize", () => {
   var g;

@@ -1,6 +1,6 @@
 let expect = require("../chai").expect;
 let barycenter = require("../../lib/order/barycenter");
-let Graph = require("@dagrejs/graphlib").Graph;
+let Graph = require("graphlib").Graph;
 
 describe("order/barycenter", () => {
   let g;

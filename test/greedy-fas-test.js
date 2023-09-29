@@ -1,6 +1,6 @@
 var expect = require("./chai").expect;
-var Graph = require("@dagrejs/graphlib").Graph;
-var findCycles = require("@dagrejs/graphlib").alg.findCycles;
+var Graph = require("graphlib").Graph;
+var findCycles = require("graphlib").alg.findCycles;
 var greedyFAS = require("../lib/greedy-fas");
 
 describe("greedyFAS", () => {

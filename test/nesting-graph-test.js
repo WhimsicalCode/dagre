@@ -1,6 +1,6 @@
 var expect = require("./chai").expect;
-var Graph = require("@dagrejs/graphlib").Graph;
-var components = require("@dagrejs/graphlib").alg.components;
+var Graph = require("graphlib").Graph;
+var components = require("graphlib").alg.components;
 var nestingGraph = require("../lib/nesting-graph");
 
 describe("rank/nestingGraph", () => {

@@ -1,5 +1,5 @@
 var expect = require("../chai").expect;
-var Graph = require("@dagrejs/graphlib").Graph;
+var Graph = require("graphlib").Graph;
 var networkSimplex = require("../../lib/rank/network-simplex");
 var longestPath = require("../../lib/rank/util").longestPath;
 var initLowLimValues = networkSimplex.initLowLimValues;
